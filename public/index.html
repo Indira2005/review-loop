@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Say It</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <section class="landing" id="landing">
+      <div class="cloud cloud-one"></div><div class="cloud cloud-two"></div>
+      <div class="hero-character"><div class="speech-bubble" id="speech">Hello there! <span>✦</span></div><div class="pixel-person pixel-happy" id="hero-bot" aria-label="A friendly waving pixel character" role="img"><i class="hair"></i><i class="face"></i><i class="eye left"></i><i class="eye right"></i><i class="mouth" id="hero-mouth"></i><i class="body"></i><i class="arm wave"></i><i class="arm other"></i><i class="leg left-leg"></i><i class="leg right-leg"></i></div></div>
+      <p class="eyebrow" id="business-kicker">THANKS FOR VISITING</p>
+      <h1 id="business-title">Good words help<br><em>good places grow.</em></h1>
+      <p class="intro">Your honest words help the next person decide.</p>
+      <div class="review-paths">
+        <button class="path-card primary-card" id="start-review">
+          <span class="card-icon">✎</span><span><strong>Help me write a review</strong><small>About 1 minute · 5 quick questions</small></span><b>→</b>
+        </button>
+        <button class="path-card" id="google-direct">
+          <span class="card-icon">↗</span><span><strong>I’ll write on Google</strong><small>I know exactly what I want to say</small></span><b>→</b>
+        </button>
+      </div>
+      <p class="tiny-note">Your words are yours. Keep them honest, kind, and true to your visit.</p>
+    </section>
+
+    <section class="chat-screen hidden" id="chat-screen">
+      <header class="chat-header"><button id="back" aria-label="Back to welcome">←</button><div class="mini-character pixel-happy" id="chat-bot" aria-label="Pixel helper"><i class="hair"></i><i class="face"></i><i class="eye left"></i><i class="eye right"></i><i class="mouth"></i></div><div><strong id="chat-business-name">Say It</strong><small>here to help you find the words</small></div><span class="progress-label" id="progress-label">Question 1 of 5</span></header>
+      <div class="chat-area" id="chat-area" aria-live="polite"></div>
+      <form class="chat-input" id="chat-form"><div class="sentiment-buttons" id="sentiment-buttons"><button type="button" data-sentiment="great">😊 Great</button><button type="button" data-sentiment="okay">😐 Okay</button><button type="button" data-sentiment="notGreat">🙁 Not great</button></div><div class="input-row"><input id="answer-input" autocomplete="off" placeholder="Type your answer here…" /><button class="send-answer" aria-label="Send answer" type="submit">↑</button></div><button class="skip-question" id="skip-question" type="button">Skip this question</button></form>
+    </section>
+
+    <section class="thank-you hidden" id="thank-you">
+      <div class="hero-character small-character"><div class="speech-bubble">Thank you so much! <span>♥</span></div><div class="pixel-person pixel-happy"><i class="hair"></i><i class="face"></i><i class="eye left"></i><i class="eye right"></i><i class="mouth"></i><i class="body"></i><i class="arm wave"></i><i class="arm other"></i><i class="leg left-leg"></i><i class="leg right-leg"></i></div></div>
+      <p class="eyebrow">YOU MADE A DIFFERENCE</p>
+      <p id="final-note">Here’s a starting point based only on what you told me. Make it sound like you before sharing it.</p>
+      <textarea id="review-draft" aria-label="Your editable review draft"></textarea>
+      <p class="sr-only" id="polish-status" aria-live="polite"></p>
+      <div class="ai-actions"><button class="google-button" id="polish" type="button">Help me put this together <span> ✦ </span></button><button class="reword-icon" id="reword" type="button" disabled aria-label="Try different wording" title="Try different wording"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button></div>
+      <div class="handoff-guide"><p><b>1</b> Copy your review</p><p><b>2</b> Open Google</p><p><b>3</b> Paste and post</p></div>
+      <div class="post-actions"><button class="copy-button" id="copy-review">1. Copy review</button><button class="google-button" id="open-google" disabled>2. Open Google <span>↗</span></button></div>
+      <p class="copy-message" id="copy-message"></p>
+      <button class="start-over" id="start-over">Start over</button>
+    </section>
+  </main>
+  <script src="/script.js"></script>
+</body>
+</html>

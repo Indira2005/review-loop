@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: say-it
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: GROQ_API_KEY
+        sync: false
+      - key: SENTIMENT_MODEL
+        value: openai/gpt-oss-20b
+      - key: CLEAN_MODEL
+        value: openai/gpt-oss-20b
+      - key: APP_BASE_URL
+        sync: false
+      - key: PG_POOL_MAX
+        value: "10"
