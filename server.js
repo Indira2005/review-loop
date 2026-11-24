@@ -127,6 +127,9 @@ app.use(helmet({
 }));
 app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ extended: false, limit: "10kb" }));
+// The root URL is the business-owner entry point. Customer review pages remain at /r/:slug.
+app.get("/", (_req, res) => res.sendFile(path.join(__dirname, "private", "dashboard.html")));
+
 app.use(express.static(path.join(__dirname, "public"), {
   etag: true,
   maxAge: isProduction ? "1h" : 0,
