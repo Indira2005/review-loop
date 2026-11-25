@@ -620,6 +620,15 @@ app.put("/api/dashboard/businesses/:id", requireUser, asyncRoute(async (req, res
   );
   res.json(publicBusiness(result.rows[0]));
 }));
+app.delete("/api/dashboard/businesses/:id", requireUser, asyncRoute(async (req, res) => {
+  const result = await pool.query(
+    "DELETE FROM businesses WHERE id = $1 AND owner_id = $2 RETURNING id",
+    [req.params.id, req.session.userId]
+  );
+  if (!result.rowCount) return res.status(404).json({ error: "Business not found." });
+  // Related events and daily business AI usage are removed by their foreign-key cascades.
+  res.status(204).end();
+}));
 app.get("/api/dashboard/businesses/:id/stats", requireUser, asyncRoute(async (req, res) => {
   const business = await getOwnedBusiness(req.params.id, req.session.userId);
   if (!business) return res.status(404).json({ error: "Business not found." });

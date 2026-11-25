@@ -61,3 +61,23 @@ button,input,textarea,select{font-family:inherit}
 
 /* retry icon (Font Awesome) */
 .reword-icon i{font-size:19px}
+
+/* Mobile keyboard layout: keep the business/progress header in view while typing. */
+.chat-screen:not(.hidden){
+  position:fixed;
+  top:var(--visible-viewport-top,0px);
+  left:0;
+  right:0;
+  z-index:100;
+  width:min(100%,440px);
+  height:var(--visible-viewport-height,100dvh);
+  min-height:0;
+  max-height:100dvh;
+  margin:0 auto;
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+.chat-header{flex:0 0 auto;position:sticky;top:0;z-index:2;padding-top:calc(12px + env(safe-area-inset-top,0px));}
+.chat-area{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scroll-padding-top:12px;}
+.chat-input{flex:0 0 auto;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));}
+@supports not (height:100dvh){.chat-screen:not(.hidden){height:var(--visible-viewport-height,100vh);}}

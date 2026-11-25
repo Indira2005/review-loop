@@ -38,6 +38,10 @@ async function loadBusinesses() {
 async function openBusiness(id) {
   active = await api("/api/dashboard/businesses/" + encodeURIComponent(id));
   $("#business-title").textContent = active.name;
+  $("#edit-name").value = active.name;
+  $("#edit-google").value = active.googleUrl;
+  $("#saved").textContent = "";
+  $("#edit-business-panel").classList.add("hidden");
   const customerUrl = location.origin + "/r/" + active.slug;
   $("#customer-link").href = customerUrl;
   $("#customer-link").textContent = customerUrl;
@@ -70,6 +74,14 @@ function showAuthError(message) {
   $("#auth-error").textContent = message;
   $("#auth-error").classList.remove("hidden");
 }
+$("#toggle-password").onclick = () => {
+  const password = $("#password");
+  const visible = password.type === "password";
+  password.type = visible ? "text" : "password";
+  $("#toggle-password").textContent = visible ? "Hide" : "Show";
+  $("#toggle-password").setAttribute("aria-label", visible ? "Hide password" : "Show password");
+  $("#toggle-password").setAttribute("aria-pressed", String(visible));
+};
 $("#login").onclick = async () => {
   $("#auth-error").classList.add("hidden");
   try {
@@ -111,6 +123,37 @@ $("#save-new").onclick = async () => {
     await openBusiness(business.id);
   } catch (error) { alert(error.message); }
 };
+$("#edit-business").onclick = () => {
+  if (!active) return;
+  $("#edit-business-panel").classList.remove("hidden");
+  $("#edit-business-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+  $("#edit-name").focus({ preventScroll: true });
+};
+$("#cancel-edit").onclick = () => {
+  if (!active) return;
+  $("#edit-name").value = active.name;
+  $("#edit-google").value = active.googleUrl;
+  Object.entries(active.questions).forEach(([key, value]) => {
+    const field = document.querySelector(`#questions textarea[data-key="${CSS.escape(key)}"]`);
+    if (field) field.value = value;
+  });
+  $("#saved").textContent = "";
+  $("#edit-business-panel").classList.add("hidden");
+};
+$("#delete-business").onclick = async () => {
+  if (!active) return;
+  const confirmed = window.confirm(`Delete "${active.name}"? This permanently removes its QR destination, settings, and analytics. This cannot be undone.`);
+  if (!confirmed) return;
+  try {
+    await api("/api/dashboard/businesses/" + encodeURIComponent(active.id), { method: "DELETE" });
+    active = null;
+    $("#detail").classList.add("hidden");
+    $("#list").classList.remove("hidden");
+    await loadBusinesses();
+  } catch (error) {
+    alert(error.message);
+  }
+};
 $("#save-settings").onclick = async () => {
   if (!active) return;
   const questions = Object.fromEntries(
@@ -119,9 +162,15 @@ $("#save-settings").onclick = async () => {
   try {
     active = await api("/api/dashboard/businesses/" + encodeURIComponent(active.id), {
       method: "PUT",
-      body: JSON.stringify({ name: active.name, googleUrl: active.googleUrl, questions })
+      body: JSON.stringify({ name: $("#edit-name").value, googleUrl: $("#edit-google").value, questions })
     });
-    $("#saved").textContent = "Saved.";
+    $("#business-title").textContent = active.name;
+    $("#edit-name").value = active.name;
+    $("#edit-google").value = active.googleUrl;
+    $("#saved").textContent = "Changes saved.";
+    const customerUrl = location.origin + "/r/" + active.slug;
+    $("#customer-link").href = customerUrl;
+    $("#customer-link").textContent = customerUrl;
   } catch (error) { $("#saved").textContent = error.message; }
 };
 $("#back-list").onclick = () => {
